@@ -1,6 +1,5 @@
 #include<lpc21xx.h>
 #include"can2_init.h"
-#include"uart_header.h"
 #include"all_lcd_header.h"
 void PWM_INIT(void);
 void MOTOR_CTRL(u32);
@@ -12,7 +11,6 @@ int main()
 	CAN2_INIT();
 	PWM_INIT();
 	LCD_INIT();
-	UART0_INIT();
 	LCD_CMD(0X80);
 	LCD_ROT(a);
 	LCD_CMD(0X01);
@@ -26,10 +24,8 @@ int main()
 	while(1)
 	{
 		CAN2_RX(&m);
-		if(m.id==0x100 && m.rtr==0){
+		if(m.id==0x100 && m.rtr==0)
 			distance=m.byteA;
-			UART0_INT(m.byteA);
-			}
 		else if(m.id==0x200 && m.rtr==0)
 			speed=m.byteA;
 
